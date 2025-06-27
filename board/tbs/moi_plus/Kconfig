@@ -1,0 +1,12 @@
+if TARGET_MOI_PLUS
+
+config SYS_BOARD
+	default "moi_plus"
+
+config SYS_VENDOR
+	default "tbs"
+
+config SYS_CONFIG_NAME
+	default "moi_plus"
+
+endif

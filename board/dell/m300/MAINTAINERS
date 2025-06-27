@@ -1,0 +1,7 @@
+M300 BOARD
+M:	Tony Dinh <mibodhi@gmail.com>
+S:	Maintained
+F:      arch/arm/dts/kirkwood-m300.dts
+F:	board/dell/m300
+F:	include/configs/m300.h
+F:	configs/m300_defconfig

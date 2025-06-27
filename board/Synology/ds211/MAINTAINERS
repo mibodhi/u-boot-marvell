@@ -1,0 +1,7 @@
+DS211 BOARD
+M:	bodhi <mibodhi@gmail.com>
+S:	Maintained
+F:	arch/arm/boot/dts/kirkwood-ds211.dts
+F:	board/Synology/ds211/
+F:	include/configs/ds211.h
+F:	configs/ds211_defconfig

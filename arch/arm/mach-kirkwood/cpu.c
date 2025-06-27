@@ -145,6 +145,21 @@ static void kw_sysrst_check(void)
 }
 
 #if defined(CONFIG_DISPLAY_CPUINFO)
+void print_kirkwood_mpp_variant(void)
+{
+	switch (readl(KW_REG_DEVICE_ID) & 0x03) {
+	case 1:
+		printf("MPP:   Variant 88F6192\n");
+		break;
+        case 2:
+		printf("MPP:   Variant 88F6281\n");
+		break;
+        default:
+		printf("MPP:    Variant: Unknow SoC Device: 0x%X\n", readl(KW_REG_DEVICE_ID));
+		break;
+        }
+}
+
 int print_cpuinfo(void)
 {
 	char *rev = "??";
@@ -177,6 +192,8 @@ int print_cpuinfo(void)
 	}
 
 	printf("SoC:   Kirkwood 88F%04x_%s\n", devid, rev);
+	print_kirkwood_mpp_variant();
+
 	return 0;
 }
 #endif /* CONFIG_DISPLAY_CPUINFO */

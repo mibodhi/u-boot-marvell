@@ -1,0 +1,7 @@
+DS112 BOARD
+M:	Tony Dinh <mibodhi@gmail.com>
+S:	Maintained
+F:	arch/arm/dts/kirkwood-ds112-v10j.dts
+F:	board/Synology/ds211/
+F:	include/configs/ds211.h
+F:	configs/ds211_defconfig

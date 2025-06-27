@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (c) 2024 bodhi <mibodhi@gmail.com>
+ * 
+ * Based on kirkwood-ds212.dts
+ * Andrew Lunn <andrew@lunn.ch>
+ * Ben Peddell <klightspeed@killerwolves.net>
+ *
+ */
+
+/dts-v1/;
+
+#include "kirkwood.dtsi"
+#include "kirkwood-6282.dtsi"
+#include "kirkwood-synology.dtsi"
+
+/ {
+	model = "Synology DS211";
+	compatible = "synology,ds211", "marvell,kirkwood-88f6282", "marvell,kirkwood";
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x8000000>;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200n8";
+		stdout-path = &uart0;
+	};
+
+	gpio-fan-100-15-35-1 {
+		status = "okay";
+	};
+
+	regulators-hdd-30-2 {
+		status = "okay";
+	};
+
+};
+
+&s35390a {
+	status = "okay";
+};
+
+&pcie1 {
+	status = "okay";
+};

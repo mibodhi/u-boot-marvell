@@ -204,6 +204,7 @@
 #define MPP30_TSMP10		MPP( 30, 0x1, 1, 1, 0,   0,   1,   1    )
 #define MPP30_TDM_PCLK		MPP( 30, 0x2, 1, 1, 0,   0,   1,   1    )
 #define MPP30_GE1_10		MPP( 30, 0x3, 0, 0, 0,   1,   1,   1    )
+#define MPP30_SATA0_ACTn        MPP( 30, 0x5, 0, 1, 0,   1,   1,   1    )
 
 #define MPP31_GPIO		MPP( 31, 0x0, 1, 1, 0,   1,   1,   1    )
 #define MPP31_TSMP11		MPP( 31, 0x1, 1, 1, 0,   0,   1,   1    )
@@ -218,10 +219,12 @@
 #define MPP33_GPIO		MPP( 33, 0x0, 1, 1, 0,   1,   1,   1    )
 #define MPP33_TDM_DTX		MPP( 33, 0x2, 0, 1, 0,   0,   1,   1    )
 #define MPP33_GE1_13		MPP( 33, 0x3, 0, 0, 0,   1,   1,   1    )
+#define MPP33_SATA1_ACTn        MPP( 33, 0x5, 0, 1, 0,   1,   1,   1    )
 
 #define MPP34_GPIO		MPP( 34, 0x0, 1, 1, 0,   1,   1,   1    )
 #define MPP34_TDM_SPI_CS1	MPP( 34, 0x2, 0, 1, 0,   0,   1,   1    )
 #define MPP34_GE1_14		MPP( 34, 0x3, 0, 0, 0,   1,   1,   1    )
+#define MPP34_SATA1_ACTn 	MPP( 34, 0x5, 0, 1, 0,   1,   1,   1    )
 
 #define MPP35_GPIO		MPP( 35, 0x0, 1, 1, 1,   1,   1,   1    )
 #define MPP35_TDM_CH0_TX_QL	MPP( 35, 0x2, 0, 1, 0,   0,   1,   1    )

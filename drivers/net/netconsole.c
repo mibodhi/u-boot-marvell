@@ -6,6 +6,7 @@
 
 #include <command.h>
 #include <env.h>
+#include <iomux.h>
 #include <log.h>
 #include <stdio_dev.h>
 #include <net.h>
@@ -32,6 +33,12 @@ static int output_packet_len;
  * We are only interested in NETCONS or not.
  */
 enum proto_t net_loop_last_protocol = BOOTP;
+
+/*
+ * Net console helpers
+ */
+static void usage(void);
+static void remove_nc_from(const int console);
 
 static void nc_wait_arp_handler(uchar *pkt, unsigned dest,
 				 struct in_addr sip, unsigned src,
@@ -109,6 +116,21 @@ static int refresh_settings_from_env(void)
 			memset(nc_ether, 0, sizeof(nc_ether));
 	}
 	return 0;
+}
+
+static void remove_nc_from(const int console)
+{
+	int ret;
+
+	ret = iomux_replace_device(console, "nc", "nulldev");
+	if (ret) {
+		printf("\n*** Warning: Cannot remove nc from %s Error=%d\n",
+			stdio_names[console], ret);
+		printf("%s=", stdio_names[console]);
+		iomux_printdevs(console);
+		usage();
+		flush();
+	}
 }
 
 /**
@@ -241,6 +263,29 @@ static int nc_stdio_start(struct stdio_dev *dev)
 	return 0;
 }
 
+void nc_stdio_stop(void)
+{
+	if (IS_ENABLED(CONFIG_CONSOLE_MUX)) {
+		int ret;
+		struct stdio_dev *sdev;
+
+		/* Remove nc from each stdio file  */
+		remove_nc_from(stdin);
+		remove_nc_from(stderr);
+		remove_nc_from(stdout);
+
+		/* Deregister nc device */
+		sdev = stdio_get_by_name("nc");
+		ret = stdio_deregister_dev(sdev, true);
+		if (ret)
+			printf("\nWarning: Cannot deregister nc console Error=%d\n", ret);
+	} else {
+		printf("\n*** Warning: CONFIG_CONSOLE_MUX must be enabled for netconsole\n"
+			"to work properly. The nc console will be removed when\n"
+			"netconsole driver stops\n");
+	}
+}
+
 static void nc_stdio_putc(struct stdio_dev *dev, char c)
 {
 	if (output_recursion)
@@ -316,6 +361,16 @@ static int nc_stdio_tstc(struct stdio_dev *dev)
 	return input_size != 0;
 }
 
+static void usage(void)
+{
+	printf("USAGE:\n"
+		"NetConsole requires CONFIG_CONSOLE_MUX. At least one default console\n"
+		"must be specified in addition to nc console. For example, for boards\n"
+		"that the main console is serial, set the each of envs stdin/stdout/stderr\n"
+		"to serial,nc. Some kernel might fail to boot when nc is the only device in\n"
+		"stdout list\n");
+}
+
 int drv_nc_init(void)
 {
 	struct stdio_dev dev;
@@ -334,4 +389,9 @@ int drv_nc_init(void)
 	rc = stdio_register(&dev);
 
 	return (rc == 0) ? 1 : rc;
+}
+
+void drv_nc_stop(void)
+{
+	nc_stdio_stop();
 }

@@ -1,16 +1,10 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
 /*
- * Copyright (C) 2011
- * Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
- *
- * Based on Kirkwood support:
- * (C) Copyright 2009
- * Marvell Semiconductor <www.marvell.com>
- * Written-by: Prafulla Wadaskar <prafulla@marvell.com>
+ * (C) Copyright 2024 bodhi <mibodhi@gmail.com>
  */
 
-#ifndef _CONFIG_DNS325_H
-#define _CONFIG_DNS325_H
+#ifndef _CONFIG_DS211_H
+#define _CONFIG_DS211_H
 
 #include "mv-common.h"
 
@@ -31,4 +25,4 @@
 	"mtdparts=" CONFIG_MTDPARTS_DEFAULT "\0" \
 	"console=ttyS0,115200\0"
 
-#endif /* _CONFIG_DNS325_H */
+#endif /* _CONFIG_DS211_H */

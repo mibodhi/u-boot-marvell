@@ -19,6 +19,7 @@
 #include <malloc.h>
 #include <mapmem.h>
 #include <net.h>
+#include <stdio_dev.h>
 #include <asm/cache.h>
 #include <asm/global_data.h>
 #include <asm/io.h>
@@ -721,10 +722,16 @@ ulong bootm_disable_interrupts(void)
 	 * recover from any failures any more...
 	 */
 	iflag = disable_interrupts();
-#ifdef CONFIG_NETCONSOLE
-	/* Stop the ethernet stack if NetConsole could have left it up */
-	eth_halt();
-#endif
+
+	if (IS_ENABLED(CONFIG_NETCONSOLE)) {
+		/*
+		 * Make sure that the starting kernel message printed out,
+		 * stop netconsole and the ethernet stack
+		 */
+		printf("\n\nStarting kernel ...\n\n");
+		drv_nc_stop();
+		eth_halt();
+	}
 
 	return iflag;
 }
