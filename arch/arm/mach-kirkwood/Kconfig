@@ -64,6 +64,12 @@ config TARGET_DS211
 	select KW88F6281
 	select KIRKWOOD_COMMON
 
+config TARGET_DS411J
+bool "Synology DS411j Board"
+	select FEROCEON_88FR131
+	select KW88F6281
+	select KIRKWOOD_COMMON
+
 config TARGET_GURUPLUG
 	bool "GuruPlug Board"
 	select KW88F6281
@@ -207,6 +213,7 @@ source "board/Marvell/dreamplug/Kconfig"
 source "board/Synology/ds109/Kconfig"
 source "board/Synology/ds112/Kconfig"
 source "board/Synology/ds211/Kconfig"
+source "board/Synology/ds411j/Kconfig"
 source "board/Marvell/guruplug/Kconfig"
 source "board/Marvell/sheevaplug/Kconfig"
 source "board/buffalo/lsxl/Kconfig"

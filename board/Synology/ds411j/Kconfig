@@ -1,0 +1,12 @@
+if TARGET_DS411J
+
+config SYS_BOARD
+	default "ds411j"
+
+config SYS_VENDOR
+	default "Synology"
+
+config SYS_CONFIG_NAME
+	default "ds411j"
+
+endif

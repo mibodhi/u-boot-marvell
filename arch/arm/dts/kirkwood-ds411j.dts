@@ -1,0 +1,69 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Synology DS411jv10 board DTS
+ *
+ * Based on DS411j DTS by
+ * Andrew Lunn <andrew@lunn.ch>
+ * Ben Peddell <klightspeed@killerwolves.net>
+ *
+ */
+
+/dts-v1/;
+
+#include "kirkwood.dtsi"
+#include "kirkwood-6281.dtsi"
+#include "kirkwood-synology.dtsi"
+
+/ {
+	model = "Synology DS411jv10";
+	compatible = "synology,ds411j", "marvell,kirkwood";
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x8000000>;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200n8";
+		stdout-path = &uart0;
+	};
+
+	gpio-fan-150-15 {
+		status = "okay";
+		compatible = "gpio-fan";
+		pinctrl-0 = <&pmx_fanctrl_15 &pmx_fanctrl_16 &pmx_fanctrl_17>;
+		pinctrl-names = "default";
+		gpios = <&gpio0 15 GPIO_ACTIVE_HIGH
+			 &gpio0 16 GPIO_ACTIVE_HIGH
+			 &gpio0 17 GPIO_ACTIVE_HIGH>;
+		gpio-fan,speed-map = <    0 0
+				       2200 1
+				       2500 2
+				       3000 4
+				       3300 3
+				       3700 5
+				       3800 6
+				       4200 7 >;
+	};
+
+	gpio-leds-hdd-36 {
+		status = "okay";
+	};
+
+	gpio-leds-alarm-12 {
+		status = "okay";
+	};
+};
+
+&eth0 {
+	status = "okay";
+};
+
+&rs5c372 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+	compatible = "st,m25p32";
+};
