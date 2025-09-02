@@ -48,17 +48,21 @@
 };
 
 &s35390a {
+	compatible = "sii,s35392a";
 	status = "okay";
+	reg = <0x30>;
 };
 
 &pciec {
 	status = "okay";
 };
 
-&pcie0 {
-	status = "disabled";
-};
-
 &pcie1 {
 	status = "okay";
+};
+
+&spi0 {
+	flash@0 {
+		spi-max-frequency = <50000000>;
+	};
 };

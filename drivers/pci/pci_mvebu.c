@@ -87,6 +87,8 @@ static void mvebu_pcie_wait_for_link(struct mvebu_pcie *pcie)
 {
 	int retries;
 
+	printf("%s: mvebu_pcie_wait_for_link\n", pcie->name);
+
 	/* check if the link is up or not */
 	for (retries = 0; retries < LINK_WAIT_RETRIES; retries++) {
 		if (mvebu_pcie_link_up(pcie)) {
@@ -433,6 +435,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 		return ret;
 	}
 
+        printf("mvebu_pcie_probe 1\n");
+
 	/*
 	 * Change Class Code of PCI Bridge device to PCI Bridge (0x600400)
 	 * because default value is Memory controller (0x508000) which
@@ -523,6 +527,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 	}
 #endif
 
+        printf("mvebu_pcie_probe 2\n");
+
 	/* Setup windows and configure host bridge */
 	mvebu_pcie_setup_wins(pcie);
 
@@ -556,6 +562,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 	/* Release PERST# via GPIO when it was defined */
 	if (dm_gpio_is_valid(&pcie->reset_gpio))
 		dm_gpio_set_value(&pcie->reset_gpio, 0);
+
+        printf("mvebu_pcie_probe 3\n");
 
 	mvebu_pcie_wait_for_link(pcie);
 
