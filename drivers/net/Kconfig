@@ -1073,11 +1073,14 @@ config MDIO_MUX_MESON_G12A
 	  This driver is used for the MDIO mux found on the Amlogic G12A & compatible
 	  SoCs.
 
-config MDIO_MUX_MESON_GXL
-	bool "MDIO MUX for Amlogic Meson GXL SoCs"
-	depends on DM_MDIO_MUX
+config NETCONSOLE
+	bool "Enable netconsole"
+	select CONSOLE_MUX
 	help
-	  This driver is used for the MDIO mux found on the Amlogic GXL & compatible
-	  SoCs.
+	  NetConsole requires CONSOLE_MUX, i.e. at least one default console such
+	  must be specified in addition to nc console. For example, for boards that
+	  the main console is serial, set each of the envs stdin/stdout/stderr to serial,nc.
+	  See CONFIG_CONSOLE_MUX and CONFIG_SYS_CONSOLE_IS_IN_ENV help for detailed
+	  description of usage.
 
 endif # NETDEVICES

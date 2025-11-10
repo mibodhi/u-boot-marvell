@@ -4303,6 +4303,7 @@ static int spi_nor_init(struct spi_nor *nor)
 		write_enable(nor);
 		write_sr(nor, 0);
 		spi_nor_wait_till_ready(nor);
+		printf("SPI flash protected off... ");
 
 		/*
 		 * Some Winbond SPI NORs have special SR3 register which is

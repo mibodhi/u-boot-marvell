@@ -1,0 +1,12 @@
+if TARGET_M300
+
+config SYS_BOARD
+	default "m300"
+
+config SYS_VENDOR
+	default "dell"
+
+config SYS_CONFIG_NAME
+	default "m300"
+
+endif

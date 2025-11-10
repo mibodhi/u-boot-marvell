@@ -1,0 +1,7 @@
+MOI_PLUS BOARD
+M:	bodhi <mibodhi@gmail.com>
+S:	Maintained
+F:	arch/arm/dts/kirkwood-moi-plus.dts
+F:	board/tbs/moi_plus
+F:	include/configs/moi_plus.h
+F:	configs/moi_plus_defconfig

@@ -52,6 +52,24 @@ config TARGET_DS109
 	select SHEEVA_88SV131
 	select KIRKWOOD_COMMON
 
+config TARGET_DS112
+	bool "Synology DS112 Board"
+	select FEROCEON_88FR131
+	select KW88F6281
+	select KIRKWOOD_COMMON
+
+config TARGET_DS211
+	bool "Synology DS211 Board"
+	select FEROCEON_88FR131
+	select KW88F6281
+	select KIRKWOOD_COMMON
+
+config TARGET_DS411J
+bool "Synology DS411j Board"
+	select FEROCEON_88FR131
+	select KW88F6281
+	select KIRKWOOD_COMMON
+
 config TARGET_GURUPLUG
 	bool "GuruPlug Board"
 	select KW88F6281
@@ -131,6 +149,18 @@ config TARGET_GOFLEXHOME
 	select KW88F6281
 	select KIRKWOOD_COMMON
 
+config TARGET_M300
+	bool "Dell Kace M300 Board"
+	select FEROCEON_88FR131
+	select KW88F6281
+	select KIRKWOOD_COMMON
+
+config TARGET_MOI_PLUS
+        bool "TBS MOI+"
+        select FEROCEON_88FR131
+        select KW88F6281
+        select KIRKWOOD_COMMON
+
 config TARGET_NAS220
 	bool "BlackArmor NAS220"
 	select FEROCEON_88FR131
@@ -181,6 +211,9 @@ config KIRKWOOD_PCIE_INIT
 source "board/Marvell/openrd/Kconfig"
 source "board/Marvell/dreamplug/Kconfig"
 source "board/Synology/ds109/Kconfig"
+source "board/Synology/ds112/Kconfig"
+source "board/Synology/ds211/Kconfig"
+source "board/Synology/ds411j/Kconfig"
 source "board/Marvell/guruplug/Kconfig"
 source "board/Marvell/sheevaplug/Kconfig"
 source "board/buffalo/lsxl/Kconfig"
@@ -194,6 +227,8 @@ source "board/raidsonic/ib62x0/Kconfig"
 source "board/Seagate/dockstar/Kconfig"
 source "board/Seagate/goflexhome/Kconfig"
 source "board/Seagate/nas220/Kconfig"
+source "board/dell/m300/Kconfig"
+source "board/tbs/moi_plus/Kconfig"
 source "board/zyxel/nsa310s/Kconfig"
 source "board/zyxel/nsa325/Kconfig"
 source "board/alliedtelesis/SBx81LIFKW/Kconfig"

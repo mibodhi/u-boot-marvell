@@ -1,0 +1,8 @@
+DS411J BOARD
+M:	bodhi <mibodhi@gmail.com>
+S:	Maintained
+F:	arch/arm/boot/dts/kirkwood-synology.dtsi
+F:	arch/arm/boot/dts/kirkwood-ds411j.dts
+F:	board/Synology/ds411j/
+F:	include/configs/ds411j.h
+F:	configs/ds411j_defconfig

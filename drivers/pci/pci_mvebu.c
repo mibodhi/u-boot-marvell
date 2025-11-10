@@ -87,6 +87,8 @@ static void mvebu_pcie_wait_for_link(struct mvebu_pcie *pcie)
 {
 	int retries;
 
+	printf("%s: mvebu_pcie_wait_for_link\n", pcie->name);
+
 	/* check if the link is up or not */
 	for (retries = 0; retries < LINK_WAIT_RETRIES; retries++) {
 		if (mvebu_pcie_link_up(pcie)) {
@@ -367,6 +369,7 @@ static int mvebu_pcie_enable_link(struct mvebu_pcie *pcie, ofnode node)
 
 	ret = reset_get_by_index_nodev(node, 0, &rst);
 	if (ret == -ENOENT) {
+		printf("mvebu_pcie_enable_link: No ofnode  - reset failed %s\n", pcie->name);
 		return 0;
 	} else if (ret < 0) {
 		printf("%s: cannot get reset controller: %d\n", pcie->name, ret);
@@ -385,6 +388,8 @@ static int mvebu_pcie_enable_link(struct mvebu_pcie *pcie, ofnode node)
 		printf("%s: cannot enable PCIe port: %d\n", pcie->name, ret);
 		return ret;
 	}
+
+	printf("mvebu_pcie_enable_link: enabled %s\n", pcie->name);
 
 	return 0;
 }
@@ -410,6 +415,9 @@ static void mvebu_pcie_setup_link(struct mvebu_pcie *pcie)
 	reg &= ~PCI_EXP_LNKCAP_MLW;
 	reg |= (pcie->is_x4 ? 4 : 1) << 4;
 	writel(reg, pcie->base + MVPCIE_ROOT_PORT_PCI_EXP_OFF + PCI_EXP_LNKCAP);
+
+	printf("mvebu_pcie_setup_link done for %s\n", pcie->name);
+
 }
 
 static int mvebu_pcie_probe(struct udevice *dev)
@@ -426,6 +434,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 		printf("%s: unable to request reset-gpios: %d\n", pcie->name, ret);
 		return ret;
 	}
+
+        printf("mvebu_pcie_probe 1\n");
 
 	/*
 	 * Change Class Code of PCI Bridge device to PCI Bridge (0x600400)
@@ -517,6 +527,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 	}
 #endif
 
+        printf("mvebu_pcie_probe 2\n");
+
 	/* Setup windows and configure host bridge */
 	mvebu_pcie_setup_wins(pcie);
 
@@ -550,6 +562,8 @@ static int mvebu_pcie_probe(struct udevice *dev)
 	/* Release PERST# via GPIO when it was defined */
 	if (dm_gpio_is_valid(&pcie->reset_gpio))
 		dm_gpio_set_value(&pcie->reset_gpio, 0);
+
+        printf("mvebu_pcie_probe 3\n");
 
 	mvebu_pcie_wait_for_link(pcie);
 
@@ -741,8 +755,10 @@ static int mvebu_pcie_bind(struct udevice *parent)
 
 	/* First phase: Fill mvebu_pcie struct for each port */
 	ofnode_for_each_subnode(subnode, dev_ofnode(parent)) {
-		if (!ofnode_is_enabled(subnode))
+		if (!ofnode_is_enabled(subnode)) {
+			printf("mvebu_pcie_bind: %s: is disabled\n", pcie->name);
 			continue;
+		}
 
 		pcie = calloc(1, sizeof(*pcie));
 		if (!pcie)
@@ -760,9 +776,11 @@ static int mvebu_pcie_bind(struct udevice *parent)
 		 */
 
 		if (resource_size(&mem) >= SZ_128M) {
+                        printf("mvebu_pcie_bind: %s: mem.start 0x%lx mem.end 0x%lx\n", pcie->name, mem.start, mem.end);
 			pcie->mem.start = mem.start;
-			pcie->mem.end = mem.start + SZ_128M - 1;
+			pcie->mem.end = mem.end;
 			mem.start += SZ_128M;
+			mem.end = mem.start + SZ_128M - 1;
 		} else {
 			printf("%s: unable to assign mbus window for mem\n", pcie->name);
 			pcie->mem.start = 0;
@@ -770,10 +788,14 @@ static int mvebu_pcie_bind(struct udevice *parent)
 		}
 
 		if (resource_size(&io) >= SZ_64K) {
+                        printf("mvebu_pcie_bind: %s: io.start 0x%lx io.end 0x%lx\n", pcie->name, io.start, io.end);
 			pcie->io.start = io.start;
-			pcie->io.end = io.start + SZ_64K - 1;
+			pcie->io.end = io.end;
 			io.start += SZ_64K;
+			io.end = io.start + SZ_64K - 1;
+
 		} else {
+                        printf("mvebu_pcie_bind: %s: io.start 0x%lx io.end 0x%lx\n", pcie->name, io.start, io.end);
 			printf("%s: unable to assign mbus window for io\n", pcie->name);
 			pcie->io.start = 0;
 			pcie->io.end = -1;
@@ -782,6 +804,9 @@ static int mvebu_pcie_bind(struct udevice *parent)
 		ports_pcie[ports_count] = pcie;
 		ports_nodes[ports_count] = subnode;
 		ports_count++;
+
+		printf("mvebu_pcie_bind: %s: ports_count  %d\n", pcie->name, ports_count);
+
 	}
 
 	/* Second phase: Setup all PCIe links (do not enable them yet) */
@@ -799,14 +824,20 @@ static int mvebu_pcie_bind(struct udevice *parent)
 		 * one enable bit and some PCIe links cannot be enabled
 		 * individually.
 		 */
+		printf("mvebu_pcie_bind: 3rd phase - enabling %s: ports_index %d\n", pcie->name, i);
+
 		if (mvebu_pcie_enable_link(pcie, subnode) < 0) {
 			free(pcie);
 			continue;
 		}
 
+		printf("mvebu_pcie_bind: 3rd phase - binding %s: ports_index %d\n", pcie->name, i);
+
 		/* Create child device UCLASS_PCI and bind it */
 		device_bind(parent, &pcie_mvebu_drv, pcie->name, pcie, subnode,
 			    &dev);
+
+		printf("mvebu_pcie_bind: 3rd phase - bound %s:\n", pcie->name);
 	}
 
 	free(ports_pcie);

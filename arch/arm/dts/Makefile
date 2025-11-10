@@ -45,7 +45,12 @@ dtb-$(CONFIG_ARCH_DAVINCI) += \
 
 dtb-$(CONFIG_ARCH_KIRKWOOD) += \
 	kirkwood-atl-sbx81lifkw.dtb \
-	kirkwood-atl-sbx81lifxcat.dtb
+	kirkwood-atl-sbx81lifxcat.dtb \
+	kirkwood-ds112-v10j.dtb \
+	kirkwood-ds211.dtb \
+	kirkwood-ds411j.dtb \
+	kirkwood-m300.dtb \
+	kirkwood-moi-plus.dtb
 
 dtb-$(CONFIG_MACH_S900) += \
 	bubblegum_96.dtb
