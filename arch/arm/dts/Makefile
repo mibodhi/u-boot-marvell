@@ -49,8 +49,10 @@ dtb-$(CONFIG_ARCH_KIRKWOOD) += \
 	kirkwood-ds112-v10j.dtb \
 	kirkwood-ds211.dtb \
 	kirkwood-ds411j.dtb \
+	kirkwood-iomega_ix4_200d.dtb \
 	kirkwood-m300.dtb \
 	kirkwood-moi-plus.dtb
+
 
 dtb-$(CONFIG_MACH_S900) += \
 	bubblegum_96.dtb

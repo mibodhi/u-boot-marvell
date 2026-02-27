@@ -1,0 +1,12 @@
+if TARGET_IX4_200D
+
+config SYS_BOARD
+	default "ix4_200d"
+
+config SYS_VENDOR
+	default "iomega"
+
+config SYS_CONFIG_NAME
+	default "ix4_200d"
+
+endif

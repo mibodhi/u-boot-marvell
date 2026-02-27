@@ -1,0 +1,7 @@
+IX4_200D BOARD
+M:	Tony Dinh <mibodhi@gmail.com>
+S:	Maintained
+F:	arch/arm/dts/kirkwood-iomega_ix4_200d.dts
+F:	board/lenovo/ix4_200d/
+F:	include/configs/ix4_200d.h
+F:	configs/ix4_200d_defconfig

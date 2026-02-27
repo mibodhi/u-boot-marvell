@@ -128,6 +128,13 @@ config TARGET_ICONNECT
 	select KIRKWOOD_COMMON
 	select KIRKWOOD_CONSOLE_COMMON
 
+config TARGET_IX4_200D
+        bool "ix4-200d Board"
+        select FEROCEON_88FR131
+        select KW88F6281
+        select KIRKWOOD_COMMON
+        select KIRKWOOD_CONSOLE_COMMON
+
 config TARGET_KM_KIRKWOOD
 	bool "KM Kirkwood Board"
 	select FEROCEON_88FR131
@@ -269,6 +276,7 @@ source "board/cloudengines/pogo_e02/Kconfig"
 source "board/cloudengines/pogo_v4/Kconfig"
 source "board/d-link/dns325/Kconfig"
 source "board/iomega/iconnect/Kconfig"
+source "board/iomega/ix4_200d/Kconfig"
 source "board/LaCie/net2big_v2/Kconfig"
 source "board/LaCie/netspace_v2/Kconfig"
 source "board/raidsonic/ib62x0/Kconfig"
