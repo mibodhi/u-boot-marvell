@@ -18,33 +18,6 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-/* Stock MPPs
-
-Marvell>> md.l 0xF1010000 8
-f1010000: 01111111 00003311 33331140 33003333    .....3..@.3333.3
-f1010010: 00000033 00000000 00000000 00000000    3...............
-
-Stock OE val
-
-Marvell>> md.l 0xF1010100 1
-f1010100: 1000d080    ....
-
-Marvell>> md.l 0xF1010140 1
-f1010140: 0001000c    ....
-*/
-
-/*
- * Those values and defines are taken from stock version
-
-	1     		0     0     0     	d       	    	0     	8     	0
-        0001  		0000  0000  0000  	1101			0000  	1000  	0000
-	gpio 28         			gpio 15,14,12       		gpio 7
-
-	000	1		000	c
-              	0001			1100
-		gpio 16			gpio 3,2
-*/
-
 /* GPIO configuration */
 #define IX4_200D_OE_LOW		(~(0))
 #define IX4_200D_OE_HIGH	(~(0))
@@ -56,12 +29,15 @@ f1010140: 0001000c    ....
 
 int board_early_init_f(void)
 {
-	/* Multi-Purpose Pins Functionality configuration */
-
-//f1010000: 01111111 00003311 33331140 33003333    .....3..@.3333.3
-//f1010010: 00000033 00000000 00000000 00000000    3...............
-
-// Incororate the above MPPs to kwmpp_config[]
+	/*
+	 * default gpio configuration
+	 * There are maximum 64 gpios controlled through 2 sets of registers
+	 * the below configuration configures mainly initial LED status
+	 */
+	mvebu_config_gpio(IX4_200D_OE_VAL_LOW,
+			  IX4_200D_OE_VAL_HIGH,
+			  IX4_200D_OE_LOW,
+			  IX4_200D_OE_HIGH);
 
 	static const u32 kwmpp_config[] = {
 		MPP0_NF_IO2,
