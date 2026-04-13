@@ -47,6 +47,14 @@ config HUSH_SELECTABLE
 	default y if HUSH_OLD_PARSER && HUSH_MODERN_PARSER
 endmenu
 
+config CMDLINE_FLUSH_STDIN
+	bool "Enable flushing input before starting cli"
+	help
+	  When this option is enabled the stdin buffer will be flushed before
+	  starting the CLI. This is useful when stdin is changed during boot
+	  (e.g. from nulldev to serial) and junk characters may be pending
+	  in the buffer.
+
 config CMDLINE_EDITING
 	bool "Enable command line editing"
 	default y
