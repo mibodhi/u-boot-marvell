@@ -146,3 +146,37 @@ void kw_gpio_set_blink(unsigned pin, int blink)
 	/* Set blinking. */
 	__set_blinking(pin, blink);
 }
+
+/*
+ *  Hooks to  GENERIC_GPIO primitives
+ */
+
+int gpio_direction_input(unsigned pin)
+{
+	return kw_gpio_direction_input(pin);
+}
+
+int gpio_direction_output(unsigned pin, int value)
+{
+	return kw_gpio_direction_output(pin, value);
+}
+
+void gpio_set_value(unsigned pin, int value)
+{
+	kw_gpio_set_value(pin, value);
+}
+
+int gpio_get_value(unsigned pin)
+{
+	return kw_gpio_get_value(pin);
+}
+
+int gpio_request(unsigned gpio, const char *label)
+{
+	return 0;
+}
+
+int gpio_free(unsigned gpio)
+{
+	return 0;
+}

@@ -1,0 +1,116 @@
+/*
+ * Device tree file for Dell KACE M300
+ *
+ * Copyright (c) 2018-2023, bodhi <mibodhi@gmail.com>
+ *
+ */
+
+/dts-v1/;
+
+#include "kirkwood.dtsi"
+#include "kirkwood-6282.dtsi"
+
+/ {
+	model = "Dell KACE M300";
+	compatible = "dell,m300", "marvell,kirkwood-88f6282", "marvell,kirkwood";
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x80000000>;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200";
+		stdout-path = &uart0;
+	};
+
+	ocp@f1000000 {
+
+		pinctrl: pin-controller@10000 {
+			pinctrl-names = "default";
+
+			pmx_led_sys_orange: pmx-led-sys-orange {
+				marvell,pins = "mpp37";
+				marvell,function = "gpio";
+			};
+                        pmx_led_sys_white: pmx-led-sys-white {
+                                marvell,pins = "mpp38";
+                                marvell,function = "gpio";
+                        };
+		};
+
+		spi@10600{
+			status = "okay";
+
+			flash@0 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+                                compatible = "mxicy,mx25l4005a", "jedec,spi-nor";
+				spi-max-frequency = <86000000>;
+				reg = <0>;
+				mode = <0>;
+
+				partition@0 {
+					reg = <0x0 0x7f000>;
+					label = "U-Boot";
+				};
+
+				partition@1 {
+					reg = <0x7f000 0x1000>;
+					label = "U-Boot-Env";
+				};
+			};
+		};
+
+		serial@12000 {
+			status = "ok";
+		};
+
+		sata@80000 {
+			status = "okay";
+			nr-ports = <1>;
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		pinctrl-0 = <&pmx_led_sys_white &pmx_led_sys_orange>;
+		pinctrl-names = "default";
+
+		orange-sys {
+			label = "m300:orange:sys";
+			gpios = <&gpio1 5 GPIO_ACTIVE_LOW>;
+		};
+		white-sys {
+			label = "m300:white:sys";
+			gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "default-on";
+		};
+	};
+
+};
+
+&mdio {
+	status = "okay";
+
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
+	};
+};
+
+&eth0 {
+	status = "okay";
+
+	ethernet0-port@0 {
+		phy-handle = <&ethphy0>;
+	};
+};
+
+&pciec {
+	status = "okay";
+};
+
+&pcie0 {
+	status = "okay";
+};
+

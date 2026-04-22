@@ -107,6 +107,7 @@ int ext4fs_read_file(struct ext2fs_node *node, loff_t pos,
 		int blockoff = pos - (blocksize * i);
 		int blockend = blocksize;
 		int skipfirst = 0;
+
 		blknr_and_status = read_allocated_block(&node->inode, i, &cache);
 		if (blknr_and_status < 0) {
 			ext_cache_fini(&cache);

@@ -5,3 +5,9 @@
 		spi0 = &spi0;
 	};
 };
+
+&spi0 {
+        flash@0 {
+                spi-max-frequency = <50000000>;
+        };
+};

@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Device tree file for Synology DS112-v10j
+ * Copyright (C) 2025, bodhi <mibodhi@gmail.com>
+ *
+ */
+
+/dts-v1/;
+
+#include "kirkwood.dtsi"
+#include "kirkwood-6282.dtsi"
+#include "kirkwood-synology.dtsi"
+
+/ {
+	model = "Synology DS112 V10j";
+	compatible = "synology,ds112", "marvell,kirkwood";
+
+	memory {
+		device_type = "memory";
+		reg = <0x00000000 0x8000000>;
+	};
+
+	chosen {
+		bootargs = "console=ttyS0,115200n8";
+		stdout-path = &uart0;
+	};
+
+	regulators-hdd-30-2 {
+		status = "okay";
+	};
+};
+
+&mdio {
+	status = "okay";
+
+	ethphy1: ethernet-phy@1 {
+		device_type = "ethernet-phy";
+		reg = <1>;
+	};
+};
+
+&eth0 {
+	status = "okay";
+
+	ethernet0-port@0 {
+		phy-handle = <&ethphy1>;
+	};
+};
+
+&s35390a {
+	compatible = "sii,s35392a";
+	status = "okay";
+	reg = <0x30>;
+};
+
+&pciec {
+	status = "okay";
+};
+
+&pcie1 {
+	status = "okay";
+};
+
+&spi0 {
+	flash@0 {
+		spi-max-frequency = <50000000>;
+	};
+};

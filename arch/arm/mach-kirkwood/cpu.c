@@ -145,10 +145,38 @@ static void kw_sysrst_check(void)
 }
 
 #if defined(CONFIG_DISPLAY_CPUINFO)
+void print_kirkwood_mpp_variant(void)
+{
+	switch (readl(KW_REG_DEVICE_ID) & 0x03) {
+	case 1:
+		printf("MPP:   Variant 88F6192\n");
+		break;
+        case 2:
+		printf("MPP:   Variant 88F6281\n");
+		break;
+        default:
+		printf("MPP:    Variant: Unknow SoC Device: 0x%X\n", readl(KW_REG_DEVICE_ID));
+		break;
+        }
+}
+
 int print_cpuinfo(void)
 {
 	char *rev = "??";
 	u16 devid = (readl(KW_REG_PCIE_DEVID) >> 16) & 0xffff;
+
+#ifndef CONFIG_KW88F6192
+	devid = (readl(KW_REG_PCIE_DEVID) >> 16) & 0xffff;
+#else
+	/* Temporary hack until we have a proper way to id the SoC
+	 * KW88F6192 and KW88F6702 is not correctly determined, so force correct SoC.
+	 * Note that this is just for displaying purpose during U-Boot initialization */
+	devid = 0x6192;
+#ifdef CONFIG_KW88F6702
+        devid = 0x6702;
+#endif
+#endif
+
 	u8 revid = readl(KW_REG_PCIE_REVID) & 0xff;
 
 	if ((readl(KW_REG_DEVICE_ID) & 0x03) > 2) {
@@ -177,6 +205,8 @@ int print_cpuinfo(void)
 	}
 
 	printf("SoC:   Kirkwood 88F%04x_%s\n", devid, rev);
+	print_kirkwood_mpp_variant();
+
 	return 0;
 }
 #endif /* CONFIG_DISPLAY_CPUINFO */

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
+ * Copyright (C) 2025 Tony Dinh <mibodhi@gmail.com>
  * Copyright (C) 2011 Simon Guinot <sguinot@lacie.com>
  *
  * Based on Kirkwood support:
@@ -8,19 +9,25 @@
  * Written-by: Prafulla Wadaskar <prafulla@marvell.com>
  */
 
-#include <command.h>
-#include <env.h>
-#include <init.h>
-#include <net.h>
-#include <asm/global_data.h>
-#include <asm/mach-types.h>
+#include <netdev.h>
 #include <asm/arch/cpu.h>
 #include <asm/arch/soc.h>
 #include <asm/arch/mpp.h>
+#include <asm/io.h>
 #include <asm/arch/gpio.h>
+#include <asm/mach-types.h>
+#include <bootstage.h>
+#include <command.h>
+#include <init.h>
+#include <linux/bitops.h>
 
-#include "netspace_v2.h"
-#include "../common/common.h"
+/* GPIO configuration */
+#define NETSPACE_V2_OE_LOW		0x06004000
+#define NETSPACE_V2_OE_HIGH		0x00000031
+#define NETSPACE_V2_OE_VAL_LOW		0x10030000
+#define NETSPACE_V2_OE_VAL_HIGH		0x00000000
+
+#define NETSPACE_V2_GPIO_BUTTON         32
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -70,6 +77,11 @@ int board_early_init_f(void)
 	return 0;
 }
 
+int board_eth_init(struct bd_info *bis)
+{
+	return cpu_eth_init(bis);
+}
+
 int board_init(void)
 {
 #ifdef CONFIG_MACH_TYPE
@@ -82,32 +94,6 @@ int board_init(void)
 
 	return 0;
 }
-
-#if defined(CONFIG_MISC_INIT_R)
-int misc_init_r(void)
-{
-#if defined(CONFIG_CMD_I2C) && defined(CONFIG_SYS_I2C_EEPROM_ADDR)
-	if (!env_get("ethaddr")) {
-		uchar mac[6];
-		if (lacie_read_mac_address(mac) == 0)
-			eth_env_set_enetaddr("ethaddr", mac);
-	}
-#endif
-	return 0;
-}
-#endif
-
-#if defined(CONFIG_CMD_NET) && defined(CONFIG_RESET_PHY_R)
-/* Configure and initialize PHY */
-void reset_phy(void)
-{
-#if defined(CONFIG_NETSPACE_LITE_V2) || defined(CONFIG_NETSPACE_MINI_V2)
-	mv_phy_88e1318_init("ethernet-controller@72000", 0);
-#else
-	mv_phy_88e1116_init("ethernet-controller@72000", 8);
-#endif
-}
-#endif
 
 #if defined(CONFIG_KIRKWOOD_GPIO)
 /* Return GPIO button status */
