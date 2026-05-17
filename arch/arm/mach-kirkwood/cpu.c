@@ -248,10 +248,11 @@ int arch_cpu_init(void)
 #endif
 #ifdef CONFIG_KIRKWOOD_PCIE_INIT
 	/*
-	 * Enable PCI Express Port0
+	 * Enable PCI Express Port0 and Port1
 	 */
 	reg = readl(&cpureg->ctrl_stat);
-	reg |= (1 << 0);	/* Set PEX0En Bit */
+	reg |= BIT(0);		/* Set PEX0En Bit */
+	reg |= BIT(4);		/* Set PEX1En Bit on 88F6282 */
 	writel(reg, &cpureg->ctrl_stat);
 #endif
 	return 0;
