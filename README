@@ -3,6 +3,54 @@
 # (C) Copyright 2000 - 2013
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.
 
+2026.04 U-Boot for Kirkwood boards
+Git branch 2026.04-kirkwood-tld-1 (tracking master branch)
+
+For installation instruction (with important caveats if such exists),
+and for pre-built u-boot image for each board, please visit the forum
+https://forum.doozan.com/list.php?3
+
+These have been working in previous versions (2017.07 - pre-2026.04).
+However, version 2026.04 need regression tested. Please report
+the test status either here, or at doozan forum. 
+
+Cloudengine Pogo E02 (pogo_e02)
+Cloudengine PogoV4/Mobile (pogo_v4) - regression tested
+D-Link DNS-325 (dns325)
+Dell Kace M300 (m300)
+Seagate GoFlexNet/GoFlexHome (goflexhome)
+Seagate Dockstar (dockstar)
+Iomega iConnect (iconnect)
+Iomega ix4_200d (ix4_200d)
+Marvell Dreamplug (dreamplug)
+Marvell Sheevaplug (sheevaplug)
+Netspace mini_v2 (netspace_mini_v2)
+Netspace lite_v2 (netspace_lite_v2)
+Netspace max_v2 (netspace_max_v2)
+Netspace v2 (netspace_v2)
+Netgear Stora MS2110 (netgear_ms2110)
+ZyXEL NSA310 (nsa310)
+ZyXEL NSA310S/320S (nsa310s)
+ZyXEL NSA320 (nsa320)
+ZyXEL NSA325 (nsa325)
+HP Thin Client T5325 (t5325))
+TBS MOI+ (moi_plus)
+Synology DS112-v10j (ds112) - regression tested
+Synology DS211 (ds211)
+Synology DS411jv10 (ds411j)
+
+To build u-boot for a board, find the board name in the list above.
+And build at the top directory of the source tree.
+
+- Example for Cloudengine PogoV4/Mobile (pogo_v4)
+
+make pogo_v4_deconfig
+make
+
+The output u-boot image name is u-boot.kwb.
+
+==========================================
+
 Summary:
 ========
 
