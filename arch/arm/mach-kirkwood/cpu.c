@@ -52,6 +52,16 @@ unsigned int kw_winctrl_calcsize(unsigned int sizeval)
 }
 
 static const struct mbus_win windows[] = {
+/* Workaround the driver lack of support for PCIe1 */
+#ifdef CONFIG_TARGET_DS112
+	/* Window 0: PCIE MEM address space */
+	{ KW_DEFADR_PCI_MEM, KW_DEFADR_PCI_MEM_SIZE,
+	  KWCPU_TARGET_PCIE, 0xd8 },
+
+	/* Window 1: PCIE IO address space */
+	{ KW_DEFADR_PCI_IO, KW_DEFADR_PCI_IO_SIZE,
+	  KWCPU_TARGET_PCIE, 0xd0 },
+#else
 	/* Window 0: PCIE MEM address space */
 	{ KW_DEFADR_PCI_MEM, KW_DEFADR_PCI_MEM_SIZE,
 	  KWCPU_TARGET_PCIE, KWCPU_ATTR_PCIE_MEM },
@@ -59,6 +69,7 @@ static const struct mbus_win windows[] = {
 	/* Window 1: PCIE IO address space */
 	{ KW_DEFADR_PCI_IO, KW_DEFADR_PCI_IO_SIZE,
 	  KWCPU_TARGET_PCIE, KWCPU_ATTR_PCIE_IO },
+#endif
 
 	/* Window 2: NAND Flash address space */
 	{ KW_DEFADR_NANDF, 1024 * 1024 * 128,
@@ -252,7 +263,9 @@ int arch_cpu_init(void)
 	 */
 	reg = readl(&cpureg->ctrl_stat);
 	reg |= BIT(0);		/* Set PEX0En Bit */
+#ifdef CONFIG_TARGET_DS112
 	reg |= BIT(4);		/* Set PEX1En Bit on 88F6282 */
+#endif
 	writel(reg, &cpureg->ctrl_stat);
 #endif
 	return 0;
