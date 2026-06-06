@@ -17,7 +17,7 @@ the test status either here, or at doozan forum.
 Cloudengine Pogo E02 (pogo_e02)
 Cloudengine PogoV4/Mobile (pogo_v4) - regression tested
 D-Link DNS-325 (dns325)
-Dell Kace M300 (m300)
+Dell Kace M300 (m300) - regression tested
 Seagate GoFlexNet/GoFlexHome (goflexhome)
 Seagate Dockstar (dockstar)
 Iomega iConnect (iconnect)
@@ -35,7 +35,7 @@ ZyXEL NSA320 (nsa320)
 ZyXEL NSA325 (nsa325) - regression tested
 HP Thin Client T5325 (t5325))
 TBS MOI+ (moi_plus)
-Synology DS112-v10j (ds112) - regression tested (USB is broken, do not use)
+Synology DS112-v10j (ds112) - regression tested
 Synology DS211 (ds211)
 Synology DS411jv10 (ds411j)
 
